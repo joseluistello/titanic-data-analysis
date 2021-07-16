@@ -22,7 +22,6 @@ data <- rbind(train, test)
 write.csv(data, "./data/interim/bind_data.cvs", row.names = FALSE )
 
 
-## Analysis and clean 
 
 
 

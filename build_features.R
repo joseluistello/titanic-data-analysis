@@ -4,20 +4,14 @@
 str(data)
 
 
-### Lets change data type 
+### Lets change data type - Survived_Embarked_ 
 
 
 length(data$PassengerId)
 
 length(unique(data$PassengerId))
 
-ggplot(data, aes(Sex, fill = Pclass)) + geom_bar() +
-  labs(title = "",
-       subtitle = 'ssssss',
-       x = '',
-       y =  "SSSSSSSS") +
-  theme_minimal() +
-  scale_color_brewer(palette = "Dark2") 
+
 
 data$Survived <- as.factor(data$Survived)
 table(data$Survived, dnn = "Number of Survived in the Data")
