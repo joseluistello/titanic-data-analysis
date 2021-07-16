@@ -6,6 +6,9 @@ str(data)
 
 ### Lets change data type - Survived_Embarked_ 
 
+data$Survived <- as.factor(data$Survived)
+data$Embarked <- as.factor(data&Embarked)
+data$Sex <- as.factor(data$Sex)
 
 length(data$PassengerId)
 
@@ -13,7 +16,8 @@ length(unique(data$PassengerId))
 
 
 
-data$Survived <- as.factor(data$Survived)
+
+
 table(data$Survived, dnn = "Number of Survived in the Data")
 
 prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in the Train"))

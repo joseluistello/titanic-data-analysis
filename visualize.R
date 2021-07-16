@@ -1,4 +1,4 @@
-ggplot(data, aes(Sex, fill = Pclass)) + geom_bar() +
+ggplot(data, aes(Embarked, fill = Pclass)) + geom_bar() +
   labs(title = "",
        subtitle = 'ssssss',
        x = '',
