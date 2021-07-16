@@ -4,48 +4,25 @@ library(ggthemes)
 
 ## Load Data
 
-train <- read.csv("data/train.csv", header = TRUE)
-test <- read.csv("data/test.csv", header = TRUE)
+train <- read.csv("data/raw/train.csv", header = TRUE)
+test <- read.csv("data/raw/test.csv", header = TRUE)
 
 str(train)
 
 str(test)
 
-## Create new csv from test and train
+## Drop all values for test 
 
 test <- data.frame(test[1], Survived = rep("NA", nrow(test)), test[ , 2:ncol(test)])
 
+## Create new csv from bind test and train
+
 data <- rbind(train, test)
 
-write.csv(data, "./data/data.cvs", row.names = FALSE )
+write.csv(data, "./data/interim/bind_data.cvs", row.names = FALSE )
 
 
 ## Analysis and clean 
 
-summary(data)
-
-length(data$PassengerId)
-
-length(unique(data$PassengerId))
-
-ggplot(data, aes(Sex, fill = Pclass)) + geom_bar() +
-labs(title = "",
-     subtitle = 'ssssss',
-     x = '',
-     y =  "SSSSSSSS") +
-theme_minimal() +
-scale_color_brewer(palette = "Dark2") 
-
-data$Survived <- as.factor(data$Survived)
-table(data$Survived, dnn = "Number of Survived in the Data")
-
-prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in the Train"))
-
-str(data)
-data$Pclass <- as.factor(data$Pclass)
-
-table(data$Pclass, dnn = "Pclass values in the Data")
 
 
-
-prop.table(table(as.factor(data$Pclass), dnn = "Pclass percentage in the Data"))
