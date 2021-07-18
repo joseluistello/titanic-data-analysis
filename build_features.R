@@ -2,23 +2,31 @@
 
 
 str(data)
+glimpse(data)
 
 
-### Lets change data type - Survived_Embarked_ 
+### Convert to factor
 
 data$Survived <- as.factor(data$Survived)
-data$Embarked <- as.factor(data&Embarked)
+data$Embarked <- as.factor(data$Embarked)
 data$Sex <- as.factor(data$Sex)
+data$Pclass <- as.factor(data$Pclass)
 
-length(data$PassengerId)
+### Convert to number
 
-length(unique(data$PassengerId))
-
-
-
+as.numeric(as.character(dat$Age))
 
 
-table(data$Survived, dnn = "Number of Survived in the Data")
+
+length(data$Pclass)
+
+length(unique(data$Pclass))
+
+
+
+
+
+table(data$Embarked, dnn = "Number of Survived in the Data")
 
 prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in the Train"))
 

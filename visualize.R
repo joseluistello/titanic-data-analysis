@@ -1,7 +1,9 @@
-ggplot(data, aes(Embarked, fill = Pclass)) + geom_bar() +
+ggplot(data, aes(Parch)) + geom_bar() +
   labs(title = "",
-       subtitle = 'ssssss',
+       subtitle = '',
        x = '',
-       y =  "SSSSSSSS") +
+       y =  "") +
   theme_minimal() +
   scale_color_brewer(palette = "Dark2") 
+
+
