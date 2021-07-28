@@ -14,7 +14,6 @@ data$Pclass <- as.factor(data$Pclass)
 
 ### Convert to number
 
-as.numeric(as.character(dat$Age))
 
 
 

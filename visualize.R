@@ -1,9 +1,10 @@
-ggplot(data, aes(Parch)) + geom_bar() +
+## 
+ggplot(data, aes(Sex, colour = Pclass)) + geom_bar() +
   labs(title = "",
        subtitle = '',
        x = '',
        y =  "") +
   theme_minimal() +
-  scale_color_brewer(palette = "Dark2") 
+  scale_color_brewer() 
 
 

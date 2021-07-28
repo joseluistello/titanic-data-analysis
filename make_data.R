@@ -7,6 +7,8 @@ library(ggthemes)
 train <- read.csv("data/raw/train.csv", header = TRUE)
 test <- read.csv("data/raw/test.csv", header = TRUE)
 
+
+
 str(train)
 
 str(test)
