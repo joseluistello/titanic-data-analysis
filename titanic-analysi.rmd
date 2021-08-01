@@ -1,0 +1,143 @@
+---
+title: "titanic-analysis"
+author: "José Luis Tello"
+date: "8/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Upload packages and data!
+
+```{r}
+library(tidyverse)
+library(ggthemes)
+library(hablar)
+```
+
+```{r}
+train <- read.csv("data/raw/train.csv", header = TRUE)
+test <- read.csv("data/raw/test.csv", header = TRUE)
+```
+
+Data classify in R it's a different from the statistics standard. 
+
+In R we have data types and data structures. 
+
+R data types are: 
+  * character
+  * numeric 
+  * integer 
+  * complex 
+  * logical
+
+R basic data structures include 
+  * vector 
+  * list
+  * matrix 
+  * data frame 
+  * factors
+
+Let's check the structure of our data!
+
+
+```{r}
+str(train)
+```
+
+```{r}
+str(test)
+```
+
+
+
+Based on Understand Data section we need to make some changes. 
+
+
+```{r}
+train$Survived <- as.factor(train$Survived)
+train$Embarked <- as.factor(train$Embarked)
+train$Sex <- as.factor(train$Sex)
+train$Pclass <- as.factor(train$Pclass)
+
+
+test$Embarked <- as.factor(test$Embarked)
+test$Sex <- as.factor(test$Sex)
+test$Pclass <- as.factor(test$Pclass)
+```
+
+
+```{r}
+str(test)
+```
+
+```{r}
+str(train)
+```
+
+#Time to bind our two sets!
+
+
+### Drop NA values from test set 
+
+```{r}
+test <- data.frame(test[1], Survived = rep("NA", nrow(test)), test[ , 2:ncol(test)])
+```
+
+### Merge train and test for visualization and analysis
+
+```{r}
+data <- rbind(train, test)
+```
+
+### Create file from rbind product
+```{r}
+write.csv(data, "./data/interim/data.cvs", row.names = FALSE )
+```
+
+```{r}
+str(data)
+```
+
+### All right! Our data it's in shape ;) Time to analyze!
+
+
+```{r}
+length(data$PassengerId)
+```
+
+```{r}
+length(unique(data$PassengerId))
+```
+
+```{r}
+data$Survived <- as.factor(data$Survived)
+table(data$Survived, dnn = "Number of Survived in Data Frame")
+```
+
+```{r}
+prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in Train Data"))
+```
+
+## Time to change type of data
+
+```{r}
+data$Pclass <- as.factor(data$Pclass)
+```
+
+
+```{r}
+table(data$Pclass, dnn = "Pclass values in Data")
+```
+
+
+
+
+
+
+
+
+
+

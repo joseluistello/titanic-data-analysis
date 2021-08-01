@@ -21,7 +21,6 @@ test <- read.csv("data/raw/test.csv", header = TRUE)
 ```
 
 
-
 ```{r}
 str(train)
 ```
@@ -29,6 +28,10 @@ str(train)
 ```{r}
 str(test)
 ```
+
+So, first we check data type. We saw 
+
+
 
 ## Drop NA values from test set
 ```{r}
