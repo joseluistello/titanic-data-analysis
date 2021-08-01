@@ -14,7 +14,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(ggthemes)
-library(hablar)
 ```
 
 ```{r}
@@ -105,8 +104,42 @@ str(data)
 
 
 ```{r}
-length(data$PassengerId)
+ggplot(data, aes(Sex)) + 
+  geom_bar(fill = "chartreuse4", 
+           color="black") +
+  labs(x = "Gender", 
+       y = "Count", 
+       title = "")
+
 ```
+```{r}
+ggplot(data, aes(Sex, fill = Pclass)) + 
+  geom_bar(color="black") +
+  labs(x = "Gender", 
+       y = "Count", 
+       title = "1st, 2nd and 3rd Class total per Gender ")
+```
+```{r}
+ggplot(data, aes(Sex, fill = Pclass)) +
+  geom_bar(color = "black", 
+           position = position_dodge
+           (preserve = "single")) +
+  labs(x = "Gender",
+       y = "Count",
+       title = "1st, 2nd and 3rd Class total per Gender") +
+  theme_base()
+```
+```{r}
+ggplot(data, aes(Age, fill = Sex)) +
+  geom_histogram(color = "black") +
+  labs(x = "Age",
+       y = "Total",
+       title = "Histogram filled by Sex" ) +
+    theme_base()
+```
+
+
+
 
 ```{r}
 length(unique(data$PassengerId))
