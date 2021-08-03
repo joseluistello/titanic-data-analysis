@@ -100,70 +100,82 @@ write.csv(data, "./data/interim/data.cvs", row.names = FALSE )
 str(data)
 ```
 
-### All right! Our data it's in shape ;) Time to analyze!
 
+### All right! now data have correct type. Time to analyze and visualize.
+
+Let's see gender proportion by int and percent with baseR
 
 ```{r}
-ggplot(data, aes(Sex)) + 
-  geom_bar(fill = "chartreuse4", 
+table(data$Sex, dnn = "Gender proportion")
+prop.table(table(as.factor(data$Sex), dnn = "Gender proportion percent"))
+```
+
+Visualizing Sex Proportion with Ggplot
+
+```{r}
+ggplot(data, 
+       aes(x = Sex,
+           y = ..count.. / sum(..count..))) + 
+  geom_bar(fill = "cornflowerblue", 
            color="black") +
   labs(x = "Gender", 
-       y = "Count", 
-       title = "")
+       y = "Percent", 
+       title = "Proportion of gender",
+       subtitle = "") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_base()
 
 ```
+
+
+# I don't like this plot... 
+
 ```{r}
 ggplot(data, aes(Sex, fill = Pclass)) + 
   geom_bar(color="black") +
   labs(x = "Gender", 
        y = "Count", 
-       title = "1st, 2nd and 3rd Class total per Gender ")
+       title = "Passenger socio-economic class",
+       subtitle = "Distribution per gender") +
+  theme_base()
 ```
+
+# This looks better
+
 ```{r}
-ggplot(data, aes(Sex, fill = Pclass)) +
+ggplot(data, aes(x = Sex, fill = Pclass)) +
   geom_bar(color = "black", 
            position = position_dodge
            (preserve = "single")) +
   labs(x = "Gender",
        y = "Count",
-       title = "1st, 2nd and 3rd Class total per Gender") +
+       title = "Passenger socio-economic class",
+       subtitle = "Distribution per gender") +
   theme_base()
 ```
+
+
 ```{r}
 ggplot(data, aes(Age, fill = Sex)) +
   geom_histogram(color = "black") +
   labs(x = "Age",
        y = "Total",
-       title = "Histogram filled by Sex" ) +
+       title = "Age distribution" ) +
     theme_base()
 ```
 
+### At this point, we know some things. 
+
+1. - En el titanic habían 28% más de hombres que mujeres, en numeros esto quiere decir 366 hombres. 
+2. - Había mas del doble de hombres en tercera clase que mujeres, en primera y segunda estan casi iguales.
+3. - La mayor distribución de edades se concentra entre los 20 y 40 años tanto para hombres como para mujeres
+
+En este punto 
 
 
 
-```{r}
-length(unique(data$PassengerId))
-```
-
-```{r}
-data$Survived <- as.factor(data$Survived)
-table(data$Survived, dnn = "Number of Survived in Data Frame")
-```
-
-```{r}
-prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in Train Data"))
-```
-
-## Time to change type of data
-
-```{r}
-data$Pclass <- as.factor(data$Pclass)
-```
 
 
-```{r}
-table(data$Pclass, dnn = "Pclass values in Data")
-```
 
 
 
