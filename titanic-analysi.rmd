@@ -21,6 +21,8 @@ train <- read.csv("data/raw/train.csv", header = TRUE)
 test <- read.csv("data/raw/test.csv", header = TRUE)
 ```
 
+At this point, we know what type of data we have. It's time to upload and fix the data in R.
+
 Data classify in R it's a different from the statistics standard. 
 
 In R we have data types and data structures. 
@@ -50,9 +52,7 @@ str(train)
 str(test)
 ```
 
-
-
-Based on Understand Data section we need to make some changes. 
+Based on Understand Data section we need to make some changes. We need to convert to factors some variables. 
 
 
 ```{r}
@@ -76,41 +76,54 @@ str(test)
 str(train)
 ```
 
-#Time to bind our two sets!
+### DONE!
+
+Quick check-list:
+We understand the problem
+We understand the data
+We prepare our data type in R
 
 
-### Drop NA values from test set 
+Time to bind our two sets and analyze it. 
+
+
+### First, we drop NA values from test set 
 
 ```{r}
 test <- data.frame(test[1], Survived = rep("NA", nrow(test)), test[ , 2:ncol(test)])
 ```
 
-### Merge train and test for visualization and analysis
+### Then, we merge train and test 
 
 ```{r}
 data <- rbind(train, test)
 ```
 
-### Create file from rbind product
+### We create a file for the product of the rbind
+
 ```{r}
 write.csv(data, "./data/interim/data.cvs", row.names = FALSE )
 ```
+
+### Structure looks great! 
 
 ```{r}
 str(data)
 ```
 
+Let's analyze this data set.
 
-### All right! now data have correct type. Time to analyze and visualize.
+We can make a path between the dependencies of our variables. This path helps to understand the relationship in our data set.
 
-Let's see gender proportion by int and percent with baseR
+![Dependencies](img/../../img/data%20analysis/dependencies.png)
+
+For example, we can count and visualize our Sex variable and see the proportion of gender.
 
 ```{r}
 table(data$Sex, dnn = "Gender proportion")
 prop.table(table(as.factor(data$Sex), dnn = "Gender proportion percent"))
 ```
 
-Visualizing Sex Proportion with Ggplot
 
 ```{r}
 ggplot(data, 
@@ -128,19 +141,7 @@ ggplot(data,
 ```
 
 
-# I don't like this plot... 
-
-```{r}
-ggplot(data, aes(Sex, fill = Pclass)) + 
-  geom_bar(color="black") +
-  labs(x = "Gender", 
-       y = "Count", 
-       title = "Passenger socio-economic class",
-       subtitle = "Distribution per gender") +
-  theme_base()
-```
-
-# This looks better
+# We can see the proportion of socio-economic class among sex
 
 ```{r}
 ggplot(data, aes(x = Sex, fill = Pclass)) +
@@ -154,6 +155,7 @@ ggplot(data, aes(x = Sex, fill = Pclass)) +
   theme_base()
 ```
 
+##
 
 ```{r}
 ggplot(data, aes(Age, fill = Sex)) +
