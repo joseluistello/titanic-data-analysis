@@ -155,7 +155,7 @@ ggplot(data, aes(x = Sex, fill = Pclass)) +
   theme_base()
 ```
 
-##
+## Y la distribución de la edades dentro del titanic tanto de hombres como de mujeres
 
 ```{r}
 ggplot(data, aes(Age, fill = Sex)) +
@@ -166,7 +166,38 @@ ggplot(data, aes(Age, fill = Sex)) +
     theme_base()
 ```
 
-### At this point, we know some things. 
+```{r}
+# Define a function to check missing values
+missing_vars <- function(x) {
+  var <- 0
+  missing <- 0
+  missing_prop <- 0
+  for (i in 1:length(names(x))) {
+    var[i] <- names(x)[i]
+    missing[i] <- sum(is.na(x[, i])|x[, i] =="" )
+    missing_prop[i] <- missing[i] / nrow(x)
+  }
+# order   
+missing_data <- data.frame(var = var, missing = missing, missing_prop = missing_prop) %>% 
+arrange(desc(missing_prop))
+# print out
+missing_data
+}
+```
+
+
+```{r}
+missing_vars(data)
+```
+
+
+#### 5️⃣ Model Data
+
+
+
+
+
+### 6️⃣ Report and communicate 
 
 1. - En el titanic habían 28% más de hombres que mujeres, en numeros esto quiere decir 366 hombres. 
 2. - Había mas del doble de hombres en tercera clase que mujeres, en primera y segunda estan casi iguales.
