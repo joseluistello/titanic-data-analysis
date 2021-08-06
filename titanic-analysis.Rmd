@@ -9,16 +9,39 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Upload packages and data!
+
 ```{r}
 library(tidyverse)
 library(ggthemes)
 ```
-## Upload Data
 
 ```{r}
 train <- read.csv("data/raw/train.csv", header = TRUE)
 test <- read.csv("data/raw/test.csv", header = TRUE)
 ```
+
+At this point, we know what type of data we have. It's time to upload and fix the data in R.
+
+Data classify in R it's a different from the statistics standard. 
+
+In R we have data types and data structures. 
+
+R data types are: 
+  * character
+  * numeric 
+  * integer 
+  * complex 
+  * logical
+
+R basic data structures include 
+  * vector 
+  * list
+  * matrix 
+  * data frame 
+  * factors
+
+Let's check the structure of our data!
 
 
 ```{r}
@@ -29,53 +52,163 @@ str(train)
 str(test)
 ```
 
-So, first we check data type. We saw 
+Based on Understand Data section we need to make some changes. We need to convert to factors some variables. 
 
 
+```{r}
+train$Survived <- as.factor(train$Survived)
+train$Embarked <- as.factor(train$Embarked)
+train$Sex <- as.factor(train$Sex)
+train$Pclass <- as.factor(train$Pclass)
 
-## Drop NA values from test set
+
+test$Embarked <- as.factor(test$Embarked)
+test$Sex <- as.factor(test$Sex)
+test$Pclass <- as.factor(test$Pclass)
+```
+
+
+```{r}
+str(test)
+```
+
+```{r}
+str(train)
+```
+
+### DONE!
+
+Quick check-list:
+We understand the problem
+We understand the data
+We prepare our data type in R
+
+
+Time to bind our two sets and analyze it. 
+
+
+### First, we drop NA values from test set 
+
 ```{r}
 test <- data.frame(test[1], Survived = rep("NA", nrow(test)), test[ , 2:ncol(test)])
 ```
 
-## Merge train and test for visualization and analysis
+### Then, we merge train and test 
 
 ```{r}
 data <- rbind(train, test)
 ```
 
-## Create file from rbind product
+### We create a file for the product of the rbind
+
 ```{r}
-write.csv(data, "./data/data.cvs", row.names = FALSE )
+write.csv(data, "./data/interim/data.cvs", row.names = FALSE )
 ```
 
+### Structure looks great! 
+
 ```{r}
-length(data$PassengerId)
+str(data)
 ```
 
-```{r}
-length(unique(data$PassengerId))
-```
+Let's analyze this data set.
+
+We can make a path between the dependencies of our variables. This path helps to understand the relationship in our data set.
+
+![Dependencies](img/../../img/data%20analysis/dependencies.png)
+
+For example, we can count and visualize our Sex variable and see the proportion of gender.
 
 ```{r}
-data$Survived <- as.factor(data$Survived)
-table(data$Survived, dnn = "Number of Survived in Data Frame")
-```
-
-```{r}
-prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in Train Data"))
-```
-
-## Time to change type of data
-
-```{r}
-data$Pclass <- as.factor(data$Pclass)
+table(data$Sex, dnn = "Gender proportion")
+prop.table(table(as.factor(data$Sex), dnn = "Gender proportion percent"))
 ```
 
 
 ```{r}
-table(data$Pclass, dnn = "Pclass values in Data")
+ggplot(data, 
+       aes(x = Sex,
+           y = ..count.. / sum(..count..))) + 
+  geom_bar(fill = "cornflowerblue", 
+           color="black") +
+  labs(x = "Gender", 
+       y = "Percent", 
+       title = "Proportion of gender",
+       subtitle = "") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_base()
+
 ```
+
+
+# We can see the proportion of socio-economic class among sex
+
+```{r}
+ggplot(data, aes(x = Sex, fill = Pclass)) +
+  geom_bar(color = "black", 
+           position = position_dodge
+           (preserve = "single")) +
+  labs(x = "Gender",
+       y = "Count",
+       title = "Passenger socio-economic class",
+       subtitle = "Distribution per gender") +
+  theme_base()
+```
+
+## Y la distribución de la edades dentro del titanic tanto de hombres como de mujeres
+
+```{r}
+ggplot(data, aes(Age, fill = Sex)) +
+  geom_histogram(color = "black") +
+  labs(x = "Age",
+       y = "Total",
+       title = "Age distribution" ) +
+    theme_base()
+```
+
+```{r}
+# Define a function to check missing values
+missing_vars <- function(x) {
+  var <- 0
+  missing <- 0
+  missing_prop <- 0
+  for (i in 1:length(names(x))) {
+    var[i] <- names(x)[i]
+    missing[i] <- sum(is.na(x[, i])|x[, i] =="" )
+    missing_prop[i] <- missing[i] / nrow(x)
+  }
+# order   
+missing_data <- data.frame(var = var, missing = missing, missing_prop = missing_prop) %>% 
+arrange(desc(missing_prop))
+# print out
+missing_data
+}
+```
+
+
+```{r}
+missing_vars(data)
+```
+
+
+#### 5️⃣ Model Data
+
+
+
+
+
+### 6️⃣ Report and communicate 
+
+1. - En el titanic habían 28% más de hombres que mujeres, en numeros esto quiere decir 366 hombres. 
+2. - Había mas del doble de hombres en tercera clase que mujeres, en primera y segunda estan casi iguales.
+3. - La mayor distribución de edades se concentra entre los 20 y 40 años tanto para hombres como para mujeres
+
+En este punto 
+
+
+
+
+
 
 
 
