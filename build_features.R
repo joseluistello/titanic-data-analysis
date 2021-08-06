@@ -1,39 +1,26 @@
+### Convert data to factors 
+
+
+train$Survived <- as.factor(train$Survived)
+train$Embarked <- as.factor(train$Embarked)
+train$Sex <- as.factor(train$Sex)
+train$Pclass <- as.factor(train$Pclass)
+
+
+test$Embarked <- as.factor(test$Embarked)
+test$Sex <- as.factor(test$Sex)
+test$Pclass <- as.factor(test$Pclass)
 
 
 
-str(data)
-glimpse(data)
+### Drop NA values for bind
 
+test <- data.frame(test[1], Survived = rep("NA", nrow(test)), test[ , 2:ncol(test)])
 
-### Convert to factor
+### Bind data sets 
 
-data$Survived <- as.factor(data$Survived)
-data$Embarked <- as.factor(data$Embarked)
-data$Sex <- as.factor(data$Sex)
-data$Pclass <- as.factor(data$Pclass)
+data <- rbind(train, test)
 
-### Convert to number
+### Write new CV (product of BIND)
 
-
-
-
-length(data$Pclass)
-
-length(unique(data$Pclass))
-
-
-
-
-
-table(data$Embarked, dnn = "Number of Survived in the Data")
-
-prop.table(table(as.factor(train$Survived), dnn = "Survive and death ratio in the Train"))
-
-str(data)
-data$Pclass <- as.factor(data$Pclass)
-
-table(data$Pclass, dnn = "Pclass values in the Data")
-
-
-
-prop.table(table(as.factor(data$Pclass), dnn = "Pclass percentage in the Data"))
+write.csv(data, "./data/interim/data.cvs", row.names = FALSE )
